@@ -54,7 +54,8 @@ class Pdf2image extends Command {
 
 		if(count($pdfs)>0) {
 			foreach ($pdfs as $dir) {
-				exec("ls -lah '{$dir->rutas}'",$arr);
+				$command = 'find "'.$dir->rutas.'" -name "*.pdf" -exec convert -verbose -density 200 -trim {} -quality 50 -sharpen 0x1.0 {}.jpg \;';
+				exec($command,$arr);
 				pre($arr);
 			}
 		}
