@@ -55,15 +55,25 @@ class Pdf2image extends Command {
 		if(count($pdfs)>0) {
 			foreach ($pdfs as $dir) {
 
-				// Eliminacion de archivo TODAS_1.pdf
-				$command = 'rm "'.$dir->rutas.'TODAS_1.pdf"';
-				exec($command,$arr);
-				pre($arr);
+				// Verificamos si existe el TODOS_1.pdf y lo elinamos
+				if(!File::exists($dir->rutas."TODAS_1.pdf")) File::delete($dir->rutas."TODAS_1.pdf");
 
-				// Conversion de archivos
-				$command = 'find "'.$dir->rutas.'" -name "*.pdf" -exec convert -verbose -density 170 -trim {} -quality 50 -sharpen 0x1.0 {}.jpg \;';
-				exec($command,$arr);
-				pre($arr);
+				// Verificamos si existe el TODOS_1.pdf y lo elinamos
+				if(!File::exists($dir->rutas."A.pdf")) File::delete($dir->rutas."A.pdf");
+
+				// Listamos los pdf's del directorio actual
+				$pdf_files = File::files($dir->rutas);
+
+				// Recorremos los archivos, si no existe lo creamos
+				for ($i=0; $i < count($pdf_files); $i++) { 
+					if(!File::exists($pdf_files[$i].".jpg")) {
+						// Convertimos el pdf
+						$command = 'convert -verbose -density 170 -trim "' . $pdf_files[$i] . '" -quality 50 -sharpen 0x1.0 ' . '"' . $pdf_files[$i] . '.jpg"';
+						exec($command,$arr);
+						pre($arr);
+					}
+				}
+				
 			}
 		}
 
