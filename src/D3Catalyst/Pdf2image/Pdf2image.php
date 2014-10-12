@@ -43,11 +43,11 @@ class Pdf2image extends Command {
             (
                 SELECT CONCAT('/var/www/siscap.la/public/Periodicos/',p.Nombre,'/',n.Fecha,'/') AS 'ruta', 'noticias' AS 'tipo'
                 FROM noticiasDia n, periodicos p
-                WHERE idCapturista NOT IN(28) AND (n.Periodico=p.idPeriodico)
+                WHERE Fecha = CURDATE() AND idCapturista NOT IN(28) AND (n.Periodico=p.idPeriodico)
                 UNION ALL
                 SELECT CONCAT('/var/www/siscap.la/public/Periodicos/',p.Nombre,'/',n.Fecha,'/') AS 'ruta', 'anuncios' AS 'tipo'
                 FROM anunciosDia n, periodicos p
-                WHERE idCapturista NOT IN(28) AND (n.Periodico=p.idPeriodico)
+                WHERE Fecha = CURDATE() AND idCapturista NOT IN(28) AND (n.Periodico=p.idPeriodico)
             ) AS t1";
 
 		$pdfs 	= \DB::select( \DB::raw( $query ) );
