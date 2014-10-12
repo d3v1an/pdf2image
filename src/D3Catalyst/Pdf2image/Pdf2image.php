@@ -54,7 +54,14 @@ class Pdf2image extends Command {
 
 		if(count($pdfs)>0) {
 			foreach ($pdfs as $dir) {
-				$command = 'find "'.$dir->rutas.'" -name "*.pdf" -exec convert -verbose -density 200 -trim {} -quality 50 -sharpen 0x1.0 {}.jpg \;';
+
+				// Eliminacion de archivo TODAS_1.pdf
+				$command = 'rm "'.$dir->rutas.'TODAS_1.pdf"';
+				exec($command,$arr);
+				pre($arr);
+
+				// Conversion de archivos
+				$command = 'find "'.$dir->rutas.'" -name "*.pdf" -exec convert -verbose -density 170 -trim {} -quality 50 -sharpen 0x1.0 {}.jpg \;';
 				exec($command,$arr);
 				pre($arr);
 			}
