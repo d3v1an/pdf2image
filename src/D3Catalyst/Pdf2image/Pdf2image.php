@@ -66,11 +66,12 @@ class Pdf2image extends Command {
 
 				// Recorremos los archivos, si no existe lo creamos
 				for ($i=0; $i < count($pdf_files); $i++) { 
-					if(!\File::exists($pdf_files[$i].".jpg")) {
+					if(!\File::exists(str_replace('//','/',$pdf_files[$i]).".jpg")) {
 						// Convertimos el pdf
-						$command = 'convert -verbose -density 170 -trim "' . $pdf_files[$i] . '" -quality 50 -sharpen 0x1.0 ' . '"' . $pdf_files[$i] . '.jpg"';
+						$command = 'convert -verbose -density 170 -trim "' . str_replace('//','/',$pdf_files[$i]) . '" -quality 50 -sharpen 0x1.0 ' . '"' . str_replace('//','/',$pdf_files[$i]) . '.jpg"';
 						exec($command,$arr);
-						pre($arr);
+						$strArr = implode(', ', $arr);
+						$this->line($strArr);
 					}
 				}
 
